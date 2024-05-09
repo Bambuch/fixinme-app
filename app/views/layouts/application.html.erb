@@ -23,6 +23,11 @@
     <%= tag.meta(name: "turbo-cache-control", content: "no-cache") %>
   </head>
 
+    <div class="lheader">
+      <%= image_link_to t(".get_code"), "code-braces", "https://gitea.michalczyk.pro/fixin.me/fixin.me" %>
+      <%= image_link_to t(".report_issue"), "bug-outline", "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues" %>
+    </div>
+
   <body>
     <header class="header">
       <% if user_signed_in? %>
