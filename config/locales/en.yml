@@ -102,3 +102,5 @@ en:
   recover_password: Recover password
   resend_confirmation: Resend confirmation
   update: Update
+  get_code: Get code
+  report_issue: Report issue

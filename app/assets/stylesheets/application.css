@@ -53,7 +53,7 @@ body {
   display: grid;
   gap: 0.8em;
   grid-template-areas:
-    "lheader   header  header"
+    "header   header  header"
     "nav      nav     nav"
     "leftside main    rightside";
   grid-template-columns: 1fr auto 1fr;
@@ -175,14 +175,13 @@ input[type=text]:read-only {
   display: flex;
   gap: 0.8em;
   grid-area: header;
-  justify-content: flex-end;
+  margin-left: auto;
 }
 
 .lheader {
-  display: block flex;
+  display: flex;
   gap: 0.8em;
-  grid-area: lheader;
-  justify-content: flex-start;
+  grid-area: header;
 }
 
 .navigation {

@@ -23,12 +23,12 @@
     <%= tag.meta(name: "turbo-cache-control", content: "no-cache") %>
   </head>
 
+  <body>
     <div class="lheader">
-      <%= image_link_to t(".get_code"), "code-braces", "https://gitea.michalczyk.pro/fixin.me/fixin.me" %>
-      <%= image_link_to t(".report_issue"), "bug-outline", "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues" %>
+      <%= image_link_to(t(:get_code), "code-braces", "https://gitea.michalczyk.pro/fixin.me/fixin.me") %>
+      <%= image_link_to(t(:report_issue), "bug-outline", "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues") %>
     </div>
 
-  <body>
     <header class="header">
       <% if user_signed_in? %>
         <%= image_link_to_unless_current(current_user.email, "account-wrench-outline",
@@ -41,8 +41,7 @@
         <% end %>
       <% else %>
         <%= image_link_to_unless_current(t(:sign_in), "login", new_user_session_path) {} %>
-        <%= image_link_to_unless_current(t(:register), "account-plus-outline",
-          new_user_registration_path) {} %>
+        <%= image_link_to_unless_current(t(:register), "account-plus-outline", new_user_registration_path) {} %>
       <% end %>
     </header>
 
