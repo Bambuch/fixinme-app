@@ -175,13 +175,6 @@ input[type=text]:read-only {
   display: flex;
   gap: 0.8em;
   grid-area: header;
-  margin-left: auto;
-}
-
-.lheader {
-  display: flex;
-  gap: 0.8em;
-  grid-area: header;
 }
 
 .navigation {

@@ -24,12 +24,10 @@
   </head>
 
   <body>
-    <div class="lheader">
-      <%= image_link_to(t(:get_code), "code-braces", "https://gitea.michalczyk.pro/fixin.me/fixin.me") %>
-      <%= image_link_to(t(:report_issue), "bug-outline", "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues") %>
-    </div>
 
     <header class="header">
+      <%= image_link_to_unless_current(t(:get_code), "code-braces", redirection_path) {} %>
+      <%= image_link_to(t(:report_issue), "bug-outline", "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues", style: "margin-right: auto") %>
       <% if user_signed_in? %>
         <%= image_link_to_unless_current(current_user.email, "account-wrench-outline",
           edit_user_registration_path) {} %>
