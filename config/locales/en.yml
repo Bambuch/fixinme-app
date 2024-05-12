@@ -42,8 +42,10 @@ en:
       update: Update
   layouts:
     application:
+      issue_tracker: Report issue
       revert: Revert
       sign_out: Sign out
+      source_code: Get code
       units: Units
       users: Users
   units:
@@ -83,7 +85,7 @@ en:
         unconfirmed_email_hint: (since %{timestamp})
         new_password: New password
         password_confirmation: Retype new password
-        blank_password_hint: Leave blank to keep unchanged %{subhint}
+        blank_password_hint: Leave blank to keep unchanged<br>%{subhint}
         update: Update profile
     sessions:
       new:
@@ -102,5 +104,3 @@ en:
   recover_password: Recover password
   resend_confirmation: Resend confirmation
   update: Update
-  get_code: Get code
-  report_issue: Report issue

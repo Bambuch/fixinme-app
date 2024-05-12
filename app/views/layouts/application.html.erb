@@ -24,10 +24,10 @@
   </head>
 
   <body>
-
     <header class="header">
-      <%= image_link_to t(:get_code), "code-braces", redirect_to_repo_path %>
-      <%= image_link_to(t(:report_issue), "bug-outline",  redirect_to_issues_path, style: "margin-right: auto") %>
+      <%= image_link_to t(".source_code"), "code-braces", source_code_url %>
+      <%= image_link_to t(".issue_tracker"), "bug-outline", issue_tracker_url,
+            class: "extendedright" %>
       <% if user_signed_in? %>
         <%= image_link_to_unless_current(current_user.email, "account-wrench-outline",
           edit_user_registration_path) {} %>
@@ -39,7 +39,8 @@
         <% end %>
       <% else %>
         <%= image_link_to_unless_current(t(:sign_in), "login", new_user_session_path) {} %>
-        <%= image_link_to_unless_current(t(:register), "account-plus-outline", new_user_registration_path) {} %>
+        <%= image_link_to_unless_current(t(:register), "account-plus-outline",
+              new_user_registration_path) {} %>
       <% end %>
     </header>
 
