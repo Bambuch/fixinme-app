@@ -83,7 +83,7 @@ en:
         unconfirmed_email_hint: (since %{timestamp})
         new_password: New password
         password_confirmation: Retype new password
-        blank_password_hint: leave blank to keep unchanged<br>%{subhint}
+        blank_password_hint: Leave blank to keep unchanged %{subhint}
         update: Update profile
     sessions:
       new:

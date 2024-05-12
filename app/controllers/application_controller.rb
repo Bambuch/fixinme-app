@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_disguised?
   helper_method :current_tab
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:redirect_to_issues, :redirect_to_repo]
 
   class AccessForbidden < StandardError; end
   class ParameterInvalid < StandardError; end
@@ -24,6 +24,15 @@ class ApplicationController < ActionController::Base
   #   This requires referer to be available in TURBO_STREAM format. Otherwise
   #   Turbo will reload 2nd time with HTML format and flashes will be lost.
   rescue_from *ActionDispatch::ExceptionWrapper.rescue_responses.keys, with: :rescue_turbo
+
+
+  def redirect_to_repo
+    redirect_to "https://gitea.michalczyk.pro/fixin.me/fixin.me", allow_other_host: true
+  end
+
+  def redirect_to_issues
+    redirect_to "https://gitea.michalczyk.pro/fixin.me/fixin.me/issues", allow_other_host: true
+  end
 
   protected
 

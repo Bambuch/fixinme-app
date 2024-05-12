@@ -24,8 +24,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     root to: "devise/sessions#new"
   end
-
-  resources :redirections, only: [:show] do
-  get 'https://gitea.michalczyk.pro/fixin.me/fixin.me', to: 'redirections#index'
-  end
+  get "redirect_to_repo", to: 'application#redirect_to_repo'
+  get "redirect_to_issues", to: 'application#redirect_to_issues'
 end
