@@ -202,13 +202,6 @@ input[type=text]:read-only {
   fill: #009ade;
 }
 
-.left{
-  margin-right: auto;
-}
-.right{
-  margin-left: auto;
-}
-
 .leftside {
   grid-area: leftside;
 }
@@ -465,6 +458,9 @@ table.items select:focus-visible {
 }
 .extendedright {
   margin-right: auto;
+}
+.extendedleft {
+  margin-left: auto;
 }
 [disabled] {
   border-color: var(--color-border-gray) !important;
