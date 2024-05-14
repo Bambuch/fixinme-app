@@ -1,18 +1,18 @@
+<div class="leftside">
 <% content_for :navigation, flush: true do %>
-  <div class="left">
     <%= image_link_to t(:back), 'arrow-left-bold-outline',
       request.referer.present? ? :back : root_url %>
-  </div>
-  <div class="right">
-    <%= image_button_to t(".delete"), "account-remove-outline", user_registration_path,
-      method: :delete, onclick: {confirm: t(".confirm_delete")} %>
-  </div>
 <% end %>
-
-<%= labelled_form_for resource, url: registration_path(resource), html: {method: :patch} do |f| %>
+</div>
+<div class="rightside">
+    <%= image_button_to t(".delete"), "account-remove-outline", user_registration_path,
+       method: :delete, :class => "extendedleft", onclick: {confirm: t(".confirm_delete")} %>
+</div>
+<div class="main">
+  <%= labelled_form_for resource, url: registration_path(resource), html: {method: :patch} do |f| %>
   <%= f.email_field :email, size: 30, autofocus: true, autocomplete: "off" %>
   <% if f.object.pending_reconfirmation? %>
-    <%= f.text_field :unconfirmed_email, readonly: true, tabindex: -1,
+  <%= f.text_field :unconfirmed_email, readonly: true, tabindex: -1,
       hint: t(".unconfirmed_email_hint",
               timestamp: f.object.confirmation_sent_at.to_fs(:db_without_sec)) %>
   <% end %>
@@ -20,11 +20,12 @@
   <%= f.select :status, User.statuses, readonly: true %>
 
   <%= f.password_field :password, label: t(".new_password"), size: 30,
-    minlength: @minimum_password_length, autocomplete: "new-password",
-    hint: t(".blank_password_hint",
-            subhint: t("users.minimum_password_length", count: @minimum_password_length)) %>
+        minlength: @minimum_password_length, autocomplete: "new-password",
+        hint: t(".blank_password_hint").html_safe + ("<br>").html_safe +  
+              t("users.minimum_password_length", count: @minimum_password_length) %>
   <%= f.password_field :password_confirmation, label: t(".password_confirmation"),
-    size: 30, minlength: @minimum_password_length, autocomplete: "off" %>
+        size: 30, minlength: @minimum_password_length, autocomplete: "off" %>
 
   <%= f.submit t(".update") %>
+</div>
 <% end %>
