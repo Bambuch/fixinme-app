@@ -18,8 +18,7 @@
 
     <%#= turbo_page_requires_reload_tag %>
     <%= turbo_exempts_page_from_cache_tag %>
-    <%# TODO: replace with turbo_disable_prefetch_tag when available %>
-    <%= tag.meta(name: "turbo-prefetch", content: false) %>
+    <%= turbo_disable_prefetch_tag %>
   </head>
 
   <body>

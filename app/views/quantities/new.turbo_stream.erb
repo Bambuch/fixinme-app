@@ -7,8 +7,9 @@
 <%= turbo_stream.disable ids[:link] -%>
 
 <%= turbo_stream.append :quantity_form do %>
-  <%- tabular_form_with model: @quantity, html: {id: ids[:form_tag]} do |form| %>
+  <%= tabular_form_with model: @quantity, html: {id: ids[:form_tag]} do |form| %>
     <%= form.hidden_field :parent_id if @quantity.parent_id? %>
+    <!-- ...existing code for form fields... -->
   <% end %>
 <% end %>
 

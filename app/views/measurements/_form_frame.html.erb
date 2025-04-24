@@ -7,11 +7,11 @@
           <tr id="new_readouts_actions">
             <td></td>
             <td></td>
-            <td><div class="actions"><%= button_tag %></div></td>
+            <td><div class="actions"><%= button_tag "Add Readout" %></div></td>
             <td><div class="actions">
               <%= image_link_to t(:cancel), "close-outline", measurements_path,
                 class: 'dangerous', name: :cancel,
-                onclick: render_turbo_stream('form_close') %>
+                onclick: render_turbo_stream('form_close').html_safe %>
             </div></td>
           </tr>
         </tbody>

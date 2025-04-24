@@ -1,12 +1,12 @@
 <%= tag.tr do %>
   <td class="<%= class_names({grayed: unit.default?}) %>"
-      style="--depth:<%= unit.base_id? ? 1 : 0 %>">
+      style="--depth:<%= unit.base_id.present? ? 1 : 0 %>">
     <%= unit %>
   </td>
 
   <% if current_user.at_least(:active) %>
     <td class="actions">
-      <% unless unit.portable.nil? %>
+      <% if unit.portable != nil %>
         <% if unit.default? %>
           <%= image_button_to_if unit.portable?, t('.import'), 'download-outline',
             import_default_unit_path(unit) %>

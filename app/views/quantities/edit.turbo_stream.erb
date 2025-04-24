@@ -4,7 +4,8 @@
           form_tag: dom_id(@quantity, :edit, :form)} %>
 
 <%= turbo_stream.append :quantity_form do %>
-  <%- tabular_form_with model: @quantity, html: {id: ids[:form_tag]} do %>
+  <%= tabular_form_with model: @quantity, html: {id: ids[:form_tag]} do %>
+    <!-- ...existing code for form fields... -->
   <% end %>
 <% end %>
 

@@ -1,7 +1,7 @@
 <% @readouts.each do |readout| %>
   <%= tabular_fields_for 'readouts[]', readout do |form| %>
     <% row = dom_id(form.object.quantity, :new, :readout) %>
-    <%- tag.tr id: row, onkeydown: 'processKey(event)' do %>
+    <%= tag.tr id: row, onkeydown: 'processKey(event)' do %>
       <td>
         <%= form.object.quantity.pathname.delete_prefix(@closest_ancestor.pathname) %>
         <%= form.hidden_field :quantity_id %>
@@ -19,7 +19,7 @@
       <td class="actions">
         <%= image_link_to t(:delete), 'delete-outline', quantities_path,
           class: 'dangerous',
-          onclick: render_turbo_stream('form_destroy_row', {row: row}) %>
+          onclick: render_turbo_stream('form_destroy_row', {row: row}).html_safe %>
       </td>
     <% end %>
   <% end %>

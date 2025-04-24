@@ -2,12 +2,16 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Email Notification</title>
     <style>
       /* Email styles need to be inline */
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <noscript>
+      <p>Your email client does not support styles. Please enable styles for the best experience.</p>
+    </noscript>
+    <%= yield || "<p>Content is unavailable. Please check back later.</p>".html_safe %>
   </body>
 </html>

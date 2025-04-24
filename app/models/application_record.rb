@@ -5,7 +5,13 @@ class ApplicationRecord < ActiveRecord::Base
     # actions, especially for recursively calculated values. Because value can
     # be changed on update, it is not same as #attr_readonly.
     def attr_cached(*names)
-      names.each { |name| alias_method :"#{name}=", :assign_cached_attribute }
+      names.each do |name|
+        if method_defined?(name) || private_method_defined?(name)
+          alias_method :"#{name}=", :assign_cached_attribute
+        else
+          raise NameError, "undefined method `#{name}` for #{self}"
+        end
+      end
     end
   end
 

@@ -5,7 +5,6 @@
            data: {drag_path: rebase_unit_path(unit),
                   drop_id: dom_id(unit.base || unit),
                   drop_id_param: "unit[base_id]"} do %>
-
   <td class="link" style="--depth:<%= unit.base_id? ? 1 : 0 %>">
     <%= link_to unit, edit_unit_path(unit), onclick: 'this.blur();', data: {turbo_stream: true} %>
   </td>
@@ -18,7 +17,6 @@
         <%= image_link_to t('.new_subunit'), 'plus-outline', new_unit_path(unit),
           id: dom_id(unit, :new, :link), onclick: 'this.blur();', data: {turbo_stream: true} %>
       <% end %>
-
       <%= image_button_to_if unit.movable?, t('.destroy'), 'delete-outline', unit_path(unit),
         method: :delete %>
     </td>

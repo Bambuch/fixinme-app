@@ -1,6 +1,6 @@
 <%= turbo_stream.close_form dom_id(@quantity.parent || Quantity, :new) %>
 <%= turbo_stream.remove :no_items %>
-<% @ancestors.map do |ancestor| %>
+<% @ancestors.each do |ancestor| %>
   <%= turbo_stream.replace ancestor %>
 <% end %>
 <%= @before ? turbo_stream.before(@before, @quantity) :

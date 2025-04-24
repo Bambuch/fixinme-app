@@ -57,8 +57,9 @@ Turbo.StreamActions.close_form = function() {
 
 /* Items table drag and drop support */
 function processKey(event) {
-  if (event.key == "Escape") {
-    event.currentTarget.querySelector("a[name=cancel]").click();
+  if (event.key === "Escape") {
+    event.preventDefault(); // Prevent default behavior for Escape key
+    event.currentTarget.querySelector("a[name=cancel]")?.click();
   }
 }
 window.processKey = processKey;
@@ -68,12 +69,12 @@ function dragStart(event) {
   lastEnterTime = event.timeStamp;
   var row = event.currentTarget;
   row.closest("table").querySelectorAll("thead tr").forEach((tr) => {
-    tr.toggleAttribute("hidden");
+    tr.toggleAttribute("hidden", true); // Ensure hidden attribute is set explicitly
   });
   event.dataTransfer.setData("text/plain", row.getAttribute("data-drag-path"));
   var rowRectangle = row.getBoundingClientRect();
-  event.dataTransfer.setDragImage(row, event.x - rowRectangle.left, event.y - rowRectangle.top);
-  event.dataTransfer.dropEffect = "move";
+  event.dataTransfer.setDragImage(row, event.clientX - rowRectangle.left, event.clientY - rowRectangle.top);
+  event.dataTransfer.effectAllowed = "move"; // Ensure proper drag effect
 }
 window.dragStart = dragStart;
 
@@ -101,19 +102,18 @@ function dragOver(event) {
 window.dragOver = dragOver;
 
 function dragLeave(event) {
-  //console.log(event.timeStamp + " " + event.type + ": " + event.currentTarget.id);
   // Leave has been accounted for by Enter at the same timestamp, processed earlier
   if (event.timeStamp <= lastEnterTime) return;
   event.currentTarget.closest("table").querySelectorAll(".dropzone").forEach((tr) => {
     tr.classList.remove("dropzone");
-  })
+  });
 }
 window.dragLeave = dragLeave;
 
 function dragEnd(event) {
   dragLeave(event);
   event.currentTarget.closest("table").querySelectorAll("thead tr").forEach((tr) => {
-    tr.toggleAttribute("hidden");
+    tr.toggleAttribute("hidden", false); // Ensure hidden attribute is removed explicitly
   });
 }
 window.dragEnd = dragEnd;
@@ -123,19 +123,25 @@ function drop(event) {
 
   var params = new URLSearchParams();
   var id_param = event.currentTarget.getAttribute("data-drop-id-param");
-  var id = event.currentTarget.getAttribute("data-drop-id").split("_").pop();
-  params.append(id_param, id);
+  var id = event.currentTarget.getAttribute("data-drop-id")?.split("_").pop();
+  if (id_param && id) {
+    params.append(id_param, id);
 
-  fetch(event.dataTransfer.getData("text/plain"), {
-    body: params,
-    headers: {
-      "Accept": "text/vnd.turbo-stream.html",
-      "X-CSRF-Token": document.head.querySelector("meta[name=csrf-token]").content,
-      "X-Requested-With": "XMLHttpRequest"
-    },
-    method: "POST"
-  })
-  .then(response => response.text())
-  .then(html => Turbo.renderStreamMessage(html))
+    fetch(event.dataTransfer.getData("text/plain"), {
+      body: params,
+      headers: {
+        "Accept": "text/vnd.turbo-stream.html",
+        "X-CSRF-Token": document.head.querySelector("meta[name=csrf-token]")?.content,
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      method: "POST"
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.text();
+    })
+    .then(html => Turbo.renderStreamMessage(html))
+    .catch(error => console.error("Error during drop operation:", error));
+  }
 }
 window.drop = drop;

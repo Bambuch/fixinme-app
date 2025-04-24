@@ -29,7 +29,7 @@ class Quantity < ApplicationRecord
           quantities,
           [
             quantities.create_join(
-              # TODO: user .with(quanities: user.quantities) once the '?' problem is fixed
+              # TODO: use .with(quantities: user.quantities) once the '?' problem is fixed
               Quantity.with_recursive(selected: [
                 quantities.project(quantities[:id], quantities[:depth])
                   .where(quantities[:id].eq(id).and(quantities[:user_id].eq(user.id))),
@@ -68,7 +68,7 @@ class Quantity < ApplicationRecord
 
   def parent_id=(value)
     super
-    self[:depth] = parent&.depth&.succ || 0
+    self[:depth] = value.nil? ? 0 : parent&.depth&.succ || 0
   end
 
   scope :defaults, ->{ where(user: nil) }

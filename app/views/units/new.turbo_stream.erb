@@ -7,7 +7,7 @@
 <%= turbo_stream.disable ids[:link] -%>
 
 <%= turbo_stream.append :unit_form do %>
-  <%- tabular_form_with model: @unit, html: {id: ids[:form_tag]} do |form| %>
+  <%= tabular_form_with model: @unit, html: {id: ids[:form_tag]} do |form| %>
     <%= form.hidden_field :base_id if @unit.base_id? %>
   <% end %>
 <% end %>

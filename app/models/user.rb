@@ -19,12 +19,14 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true,
     length: {maximum: type_for_attribute(:email).limit}
   validates :unconfirmed_email, length: {maximum: type_for_attribute(:unconfirmed_email).limit}
+  validates :status, presence: true, inclusion: { in: statuses.keys }
 
   def to_s
     email
   end
 
   def at_least(status)
+    return false unless User.statuses.key?(status.to_s)
     User.statuses[self.status] >= User.statuses[status]
   end
 end

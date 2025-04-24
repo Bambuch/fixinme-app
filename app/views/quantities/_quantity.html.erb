@@ -2,20 +2,20 @@
            ondragstart: "dragStart(event)", ondragend: "dragEnd(event)",
            ondragover: "dragOver(event)", ondrop: "drop(event)",
            ondragenter: "dragEnter(event)", ondragleave: "dragLeave(event)",
-           data: {drag_path: reparent_quantity_path(quantity), drop_id: dom_id(quantity),
-                  drop_id_param: "quantity[parent_id]"} do %>
-
+           data: {
+             drag_path: reparent_quantity_path(quantity),
+             drop_id: dom_id(quantity),
+             drop_id_param: "quantity[parent_id]"
+           } do %>
   <td class="link" style="--depth:<%= quantity.depth %>">
     <%= link_to quantity, edit_quantity_path(quantity), onclick: 'this.blur();',
       data: {turbo_stream: true} %>
   </td>
   <td><%= quantity.description %></td>
-
   <% if current_user.at_least(:active) %>
     <td class="actions">
       <%= image_link_to t('.new_subquantity'), 'plus-outline', new_quantity_path(quantity),
         id: dom_id(quantity, :new, :link), onclick: 'this.blur();', data: {turbo_stream: true} %>
-
       <%= image_button_to_if quantity.destroyable?, t('.destroy'), 'delete-outline',
         quantity_path(quantity), method: :delete %>
     </td>

@@ -4,11 +4,15 @@
     <%# TODO: show hint when no quantities/units defined %>
     <div class="hflex">
       <%= select_tag :id, options_from_collection_for_select(
-        @quantities, :id, ->(q){ sanitize('&emsp;'*q.depth + q.name) }
+        @quantities, :id, ->(q){ ('&emsp;' * q.depth + q.name).html_safe }
       ), form: :new_readouts_form %>
-      <% common_options = {form: :new_readouts_form, formaction: new_measurement_path,
-                           formmethod: :get, formnovalidate: true,
-                           data: {turbo_stream: true}} %>
+      <% common_options = {
+        form: :new_readouts_form,
+        formaction: new_measurement_path,
+        formmethod: :get,
+        formnovalidate: true,
+        data: { turbo_stream: true }
+      } %>
       <%= image_button_tag t('.new_quantity'), 'plus-outline', name: :scope,
         **common_options -%>
       <%= image_button_tag t('.new_children'), 'plus-multiple-outline', name: :scope,

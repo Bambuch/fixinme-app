@@ -1,5 +1,5 @@
 <%= tabular_fields_for @unit, form: form_tag do |form| %>
-  <%- tag.tr id: row, class: "form", onkeydown: "processKey(event)",
+  <%= tag.tr id: row, class: "form", onkeydown: "processKey(event)",
     data: {link: link, form: form_tag, hidden_row: hidden_row} do %>
 
     <td style="--depth:<%= @unit.base_id? ? 1 : 0 %>">

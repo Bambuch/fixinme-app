@@ -1,6 +1,8 @@
-<%= turbo_stream.replace :new_readouts_form do %>
-  <%= render partial: 'form_frame' %>
-<% end if @prev_quantities.empty? %>
+<% if @prev_quantities.empty? %>
+  <%= turbo_stream.replace :new_readouts_form do %>
+    <%= render partial: 'form_frame' %>
+  <% end %>
+<% end %>
 
 <%= turbo_stream.before :new_readouts_actions do %>
   <%= render partial: 'form' %>
