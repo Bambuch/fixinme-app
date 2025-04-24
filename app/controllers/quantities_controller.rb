@@ -9,7 +9,7 @@ class QuantitiesController < ApplicationController
   end
 
   def index
-    @quantities = current_user.quantities.ordered.includes(:parent).includes(:subquantities)
+    @quantities = current_user.quantities.ordered.includes(:parent, :subquantities)
   end
 
   def new
@@ -23,6 +23,7 @@ class QuantitiesController < ApplicationController
       @ancestors = @quantity.ancestors
       flash.now[:notice] = t('.success', quantity: @quantity)
     else
+      flash.now[:alert] = t('.failure')
       render :new
     end
   end
@@ -35,6 +36,7 @@ class QuantitiesController < ApplicationController
       @ancestors = @quantity.ancestors
       flash.now[:notice] = t('.success', quantity: @quantity)
     else
+      flash.now[:alert] = t('.failure')
       render :edit
     end
   end
@@ -43,8 +45,10 @@ class QuantitiesController < ApplicationController
     permitted = params.require(:quantity).permit(:parent_id)
     @previous_ancestors = @quantity.ancestors
 
-    # Until UI blocks all disallowed reparents, render error messages if present
-    render_no_content(@quantity) unless @quantity.update(permitted)
+    unless @quantity.update(permitted)
+      flash.now[:alert] = t('.failure')
+      render_no_content(@quantity) and return
+    end
 
     @ancestors = @quantity.ancestors
     @self_and_progenies = @quantity.with_progenies
@@ -52,9 +56,12 @@ class QuantitiesController < ApplicationController
   end
 
   def destroy
-    @quantity.destroy!
+    if @quantity.destroy
+      flash.now[:notice] = t('.success', quantity: @quantity)
+    else
+      flash.now[:alert] = t('.failure')
+    end
     @ancestors = @quantity.ancestors
-    flash.now[:notice] = t('.success', quantity: @quantity)
   end
 
   private

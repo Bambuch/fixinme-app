@@ -9,7 +9,7 @@ class UnitsController < ApplicationController
   end
 
   def index
-    @units = current_user.units.ordered.includes(:base).includes(:subunits)
+    @units = current_user.units.ordered.includes(:base, :subunits)
   end
 
   def new
@@ -22,6 +22,7 @@ class UnitsController < ApplicationController
       @before = @unit.successive
       flash.now[:notice] = t('.success', unit: @unit)
     else
+      flash.now[:alert] = t('.failure')
       render :new
     end
   end
@@ -33,28 +34,33 @@ class UnitsController < ApplicationController
     if @unit.update(unit_params.except(:base_id))
       flash.now[:notice] = t('.success', unit: @unit)
     else
+      flash.now[:alert] = t('.failure')
       render :edit
     end
   end
 
-  # TODO: Avoid double table width change by first un-hiding table header,
-  # then displaying index, e.g. by re-displaying header in index
   def rebase
     permitted = params.require(:unit).permit(:base_id)
     permitted.merge!(multiplier: 1) if permitted[:base_id].blank? && @unit.multiplier != 1
 
     @previous_base = @unit.base
-    @unit.update!(permitted)
-
-    @before = @unit.successive
-    if @unit.multiplier_previously_changed?
-      flash.now[:notice] = t(".multiplier_reset", unit: @unit)
+    if @unit.update(permitted)
+      @before = @unit.successive
+      if @unit.multiplier_previously_changed?
+        flash.now[:notice] = t(".multiplier_reset", unit: @unit)
+      end
+    else
+      flash.now[:alert] = t('.failure')
+      render_no_content(@unit)
     end
   end
 
   def destroy
-    @unit.destroy!
-    flash.now[:notice] = t('.success', unit: @unit)
+    if @unit.destroy
+      flash.now[:notice] = t('.success', unit: @unit)
+    else
+      flash.now[:alert] = t('.failure')
+    end
   end
 
   private

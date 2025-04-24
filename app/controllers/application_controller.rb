@@ -53,11 +53,19 @@ class ApplicationController < ActionController::Base
 
     message_id = ActionDispatch::ExceptionWrapper.rescue_responses[exception.class.to_s]
     flash.alert = t("actioncontroller.exceptions.status.#{message_id}")
-    redirect_to request.referer
+    if request.referer.present?
+      redirect_to request.referer
+    else
+      redirect_to root_path, alert: t('actioncontroller.exceptions.no_referer')
+    end
   end
 
   def run_and_render(action)
-    send action
-    render action
+    if respond_to?(action, true)
+      send action
+      render action
+    else
+      raise ArgumentError, "Action #{action} is not defined in #{self.class.name}"
+    end
   end
 end

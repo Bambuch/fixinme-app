@@ -10,9 +10,13 @@ class RegistrationsController < Devise::RegistrationsController
       params.delete(:password_confirmation) if params[:password_confirmation].blank?
     end
 
-    result = resource.update(params)
-    resource.clean_up_passwords
-    result
+    if resource.update(params)
+      resource.clean_up_passwords
+      true
+    else
+      resource.errors.add(:base, t('devise.registrations.update_failed'))
+      false
+    end
   end
 
   def after_inactive_sign_up_path_for(resource)

@@ -19,12 +19,12 @@ class MeasurementsController < ApplicationController
         [@quantity]
       end
     quantities -= @prev_quantities
-    @readouts = current_user.readouts.build(quantities.map { |q| {quantity: q} })
+    @readouts = current_user.readouts.build(quantities.map { |q| { quantity: q } })
 
-    all_quantities = @prev_qantities + quantities
+    all_quantities = @prev_quantities + quantities
     @closest_ancestor = current_user.quantities
       .common_ancestors(all_quantities.map(&:parent_id)).first
-    all_quantites << @closest_ancestor if @closest_ancestor
+    all_quantities << @closest_ancestor if @closest_ancestor
 
     @units = current_user.units.ordered
   end

@@ -12,32 +12,38 @@ class Default::UnitsController < ApplicationController
   end
 
   def index
-    @units = current_user.units.defaults_diff.includes(:base).includes(:subunits).ordered
+    @units = current_user.units.defaults_diff.includes(:base, :subunits).ordered
   end
 
   def import
-    @unit.port!(current_user)
-    flash.now[:notice] = t('.success', unit: @unit)
+    if @unit
+      @unit.port!(current_user)
+      flash.now[:notice] = t('.success', unit: @unit)
+    else
+      flash.now[:alert] = t('.failure')
+    end
   ensure
     run_and_render :index
   end
 
-  #def import_all
-    # From defaults_diff return not only portability, but reason for not being
-    # portable: missing_base and nesting_too_deep. Add portable and
-    # missing_base, if possible in one query
-  #end
-
   def export
-    @unit.port!(nil)
-    flash.now[:notice] = t('.success', unit: @unit)
+    if @unit
+      @unit.port!(nil)
+      flash.now[:notice] = t('.success', unit: @unit)
+    else
+      flash.now[:alert] = t('.failure')
+    end
   ensure
     run_and_render :index
   end
 
   def destroy
-    @unit.destroy!
-    flash.now[:notice] = t('.success', unit: @unit)
+    if @unit
+      @unit.destroy!
+      flash.now[:notice] = t('.success', unit: @unit)
+    else
+      flash.now[:alert] = t('.failure')
+    end
   ensure
     run_and_render :index
   end

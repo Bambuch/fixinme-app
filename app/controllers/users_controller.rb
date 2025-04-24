@@ -19,19 +19,31 @@ class UsersController < ApplicationController
 
   def update
     raise ParameterInvalid if current_user == @user
-    @user.update!(params.require(:user).permit(:status))
+    if @user.update(params.require(:user).permit(:status))
+      flash[:notice] = t('.success', user: @user)
+    else
+      flash[:alert] = t('.failure')
+      render :show
+    end
   end
 
   def disguise
     raise ParameterInvalid unless allow_disguise?(@user)
     session[:revert_to_id] = current_user.id
     bypass_sign_in(@user)
+    flash[:notice] = t('.success', user: @user)
     redirect_to root_url
   end
 
   def revert
-    @user = User.find(session.delete(:revert_to_id))
-    bypass_sign_in(@user)
+    revert_to_id = session.delete(:revert_to_id)
+    @user = User.find_by(id: revert_to_id)
+    if @user
+      bypass_sign_in(@user)
+      flash[:notice] = t('.success', user: @user)
+    else
+      flash[:alert] = t('.failure')
+    end
     redirect_to users_url
   end
 
@@ -48,6 +60,6 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    @user = User.find(params[:id])
+    @user = User.find_by!(id: params[:id])
   end
 end
